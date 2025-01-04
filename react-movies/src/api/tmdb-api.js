@@ -16,15 +16,13 @@
 // };
 
 export const getMovies = async () => {
-  const token = localStorage.getItem('token');
-  if (!token) throw new Error('User not logged in');
-
-  const response = await fetch('http://localhost:8080/api/tmdb/movies', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (!response.ok) throw new Error('Failed to fetch movies');
-
+  const response = await fetch(
+    'http://localhost:8080/api/movies', {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  }
+  )
   return response.json();
 };
   
