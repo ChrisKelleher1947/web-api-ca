@@ -16,6 +16,20 @@ import {
   import {
     getMovieReviews
   } from '../tmdb-api';
+
+  import{
+    getMovie
+  } from '../tmdb-api';
+
+  import{
+    getMovieRecommendations
+  } from '../tmdb-api'; 
+
+  import{
+    getPopularMovies
+  } from '../tmdb-api'; 
+
+  import { getMovieImages } from '../tmdb-api';
   
 
 const router = express.Router();
@@ -56,9 +70,51 @@ router.get('/tmdb/movies', asyncHandler(async (req, res) => {
     res.status(200).json(movies);
 }));
 
-router.get('/tmdb/reviews', asyncHandler(async (req, res) => {
-    const movieReviews = await getMovieReviews();
-    res.status(200).json(movieReviews);
+router.get('/tmdb/movies/:id', asyncHandler(async (req, res) => {
+    const { id } = req.params; // Get movie ID from URL parameters
+    const movie = await getMovie(id); // Pass the ID to the getMovie function
+    res.status(200).json(movie);
+  }));
+
+  router.get('/tmdb/movies/:id/recommendations', asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const recommendations = await getMovieRecommendations(id);
+        res.status(200).json(recommendations);
+    } catch (error) {
+        console.error(`Error fetching recommendations for movie ${id}:`, error.message);
+        res.status(500).json({ message: error.message });
+    }
+}));
+  
+
+// Get movie reviews by movie ID
+router.get('/tmdb/movies/:id/reviews', asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const reviews = await getMovieReviews(id);
+        res.status(200).json(reviews);
+    } catch (error) {
+        console.error(`Error fetching reviews for movie ${id}:`, error.message);
+        res.status(500).json({ message: error.message });
+    }
+}));
+
+router.get('/tmdb/movies/:id/images', asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params; // Extract the 'id' from the request params
+        const images = await getMovieImages(id); // Pass the 'id' to the function
+        res.status(200).json(images); // Respond with the images
+    } catch (error) {
+        console.error(`Error fetching images for movie ${req.params.id}:`, error.message);
+        res.status(500).json({ message: `Hey!! You caught the error 👍👍. Here's the details: ${error.message}` });
+    }
+}));
+
+
+router.get('/tmdb/popular', asyncHandler(async (req, res) => {
+    const popularMovies = await getPopularMovies();
+    res.status(200).json(popularMovies);
 }));
 
 
