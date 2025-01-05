@@ -45,8 +45,8 @@ export const getMovies = async () => {
 //  });
 // };
 
-export const getMovie = async (id) => {
-  const response = await fetch(`http://localhost:8080/api/movies/tmdb/movies/${id}`, {
+export const getMovie = async (movieId) => {
+  const response = await fetch(`http://localhost:8080/api/movies/tmdb/movies/${movieId}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -104,15 +104,12 @@ export const getMovie = async (id) => {
   // };
 
   export const getUpcoming = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('User not logged in');
-  
     const response = await fetch('http://localhost:8080/api/movies/tmdb/upcoming', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  
-    if (!response.ok) throw new Error('Failed to fetch movies');
-  
+      headers: {
+        'Authorization': window.localStorage.getItem('token')
+      }
+    }
+    )
     return response.json();
   };
 
@@ -187,17 +184,13 @@ export const getMovie = async (id) => {
     const response = await fetch(
         `http://localhost:8080/api/movies/tmdb/movies/${movieId}/images`,
         {
-            headers: {
-                'Authorization': `Bearer ${window.localStorage.getItem('token')}`,
-            },
+          headers: {
+            'Authorization': window.localStorage.getItem('token')
+          }
         }
-    );
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to fetch movie images');
-    }
-    return response.json();
-};
+        )
+        return response.json();
+      };
 
   
 
@@ -221,11 +214,13 @@ export const getMovie = async (id) => {
 
   export const getMovieReviews = async (movieId) => {
     const response = await fetch(`http://localhost:8080/api/movies/tmdb/movies/${movieId}/reviews`, {
-        headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
-    });
-    if (!response.ok) throw new Error('Failed to fetch movie reviews');
+      headers: {
+        'Authorization': window.localStorage.getItem('token')
+      }
+    }
+    )
     return response.json();
-};
+  };
   export const getMovieCredits = ({ queryKey }) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
@@ -264,11 +259,13 @@ export const getMovie = async (id) => {
 
   export const getMovieRecommendations = async (movieId) => {
     const response = await fetch(`http://localhost:8080/api/movies/tmdb/movies/${movieId}/recommendations`, {
-        headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
-    });
-    if (!response.ok) throw new Error('Failed to fetch movie recommendations');
+      headers: {
+        'Authorization': window.localStorage.getItem('token')
+      }
+    }
+    )
     return response.json();
-};
+  };
 
   export const login = async (username, password) => {
     const response = await fetch('http://localhost:8080/api/users', {

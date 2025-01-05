@@ -71,14 +71,19 @@ router.get('/tmdb/movies', asyncHandler(async (req, res) => {
 }));
 
 router.get('/tmdb/movies/:id', asyncHandler(async (req, res) => {
-    const { id } = req.params; // Get movie ID from URL parameters
-    const movie = await getMovie(id); // Pass the ID to the getMovie function
-    res.status(200).json(movie);
-  }));
+    const { id } = useParams();
+    try {
+        const movie = await getMovie(id); // Fetch movie data using the ID
+        res.status(200).json(movie);
+    } catch (error) {
+        console.error(`Error fetching movie ${id}:`, error.message);
+        res.status(500).json({ message: error.message });
+    }
+}));
 
   router.get('/tmdb/movies/:id/recommendations', asyncHandler(async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = useParams();
         const recommendations = await getMovieRecommendations(id);
         res.status(200).json(recommendations);
     } catch (error) {

@@ -93,7 +93,7 @@ export const getMovieImages = async (id) => {
 export const getPopularMovies = async () => {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_KEY}`
+        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.TMDB_KEY}`
       );
   
       if (!response.ok) {
