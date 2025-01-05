@@ -84,7 +84,7 @@ router.get('/tmdb/movies/:id', asyncHandler(async (req, res) => {
 
   router.get('/tmdb/movies/:id/recommendations', asyncHandler(async (req, res) => {
     try {
-        const { id } = useParams();
+        const { id } = req.params; // Correctly extract the movie ID from the URL
         const recommendations = await getMovieRecommendations(id);
         res.status(200).json(recommendations);
     } catch (error) {
