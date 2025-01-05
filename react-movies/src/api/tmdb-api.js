@@ -45,15 +45,21 @@ export const getMovies = async () => {
 //  });
 // };
 
-export const getMovie = async (movieId) => {
-  const response = await fetch(`http://localhost:8080/api/movies/tmdb/movies/${movieId}`, {
+export const getMovie = async (id) => {
+  // Ensure the id is passed correctly, should be a string or number
+  const response = await fetch(`http://localhost:8080/api/movies/tmdb/movies/${id}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
+  });
+  
+  if (!response.ok) {
+    throw new Error('Failed to fetch movie details');
   }
-  )
+
   return response.json();
 };
+
 
   
   // export const getGenres = () => {

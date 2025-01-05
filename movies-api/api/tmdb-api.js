@@ -71,6 +71,7 @@ export const getMovie = async (id) => {
       throw error;
     }
   };
+  
 
   export const getMovieRecommendations = async (id) => {
     const response = await fetch(
